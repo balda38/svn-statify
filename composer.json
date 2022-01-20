@@ -1,10 +1,10 @@
 {
-    "name": "another_b38/svn-statify",
+    "name": "balda38/svn-statify",
     "description": "Collect data about your svn repo revisions.",
     "license": "MIT",
     "authors": [
         {
-            "name": "another_b38",
+            "name": "balda38",
             "email": "alduin2012@gmail.com"
         }
     ],
