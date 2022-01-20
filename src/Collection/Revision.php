@@ -5,9 +5,7 @@ namespace SvnStatify\Collection;
 class Revision
 {
     /**
-     * @todo What type used?
-     *
-     * @var int|string
+     * @var int
      */
     public $number;
     /**
@@ -23,7 +21,7 @@ class Revision
     /**
      * @var string
      */
-    public $description;
+    public $message;
     /**
      * @var array[Change]
      */

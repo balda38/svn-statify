@@ -7,13 +7,28 @@ use SvnStatify\Parser\Parser;
 class SvnStatify
 {
     /**
+     * It could mean path to dir in system or URL.
+     *
      * @var string
      */
-    private $url;
+    private $path;
 
-    public function __construct(string $url)
+    public function __construct(string $path)
     {
-        $this->url = $url;
+        $this->path = $path;
+    }
+
+    /**
+     * @return string|false
+     */
+    private function processSvnLog()
+    {
+        echo 'Process svn log...'.PHP_EOL;
+        // For more details about revisions option `--verbose` needed
+        $result = exec('svn log --xml '.$this->path.' > '.Parser::getPathToFileForCollect());
+        echo 'Process svn log completed!'.PHP_EOL;
+
+        return $result;
     }
 
     /**
@@ -23,11 +38,20 @@ class SvnStatify
      */
     public function outputSimple() : void
     {
-        // For more details about revisions option `--verbose` needed
-        $collectResult = exec('svn log --xml '.$this->url.' > '.Parser::getPathToFileForCollect());
+        if ($this->processSvnLog() !== false) {
+            $revisions = Parser::run()->getRevisions();
 
-        if ($collectResult !== false) {
-            Parser::run();
+            while ($revisions->valid()) {
+                $revision = $revisions->current();
+
+                echo 'Number: '.$revision->number.PHP_EOL;
+                echo 'Author: '.$revision->author.PHP_EOL;
+                echo 'Date: '.$revision->dateTime.PHP_EOL;
+                echo 'Message: '.$revision->message.PHP_EOL;
+                echo '--------------------------------------'.PHP_EOL;
+
+                $revisions->next();
+            }
         } else {
             /** @todo */
         }

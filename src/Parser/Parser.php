@@ -2,6 +2,14 @@
 
 namespace SvnStatify\Parser;
 
+use SvnStatify\Collection\Repository;
+use SvnStatify\Collection\Revision;
+
+use SimpleXMLElement;
+
+use function simplexml_load_file;
+use function sys_get_temp_dir;
+
 class Parser
 {
     /**
@@ -9,9 +17,28 @@ class Parser
      */
     const FILE_NAME_FOR_COLLECT = 'svn-statify_svn_log.xml';
 
-    public static function run()
+    /**
+     * @var SimpleXMLElement
+     */
+    private $data;
+    /**
+     * @var Repository
+     */
+    private $repository;
+
+    public function __construct(SimpleXMLElement $data)
+    {
+        $this->data = $data;
+        $this->repository = new Repository();
+    }
+
+    public static function run() : Repository
     {
         $data = simplexml_load_file(self::getPathToFileForCollect());
+        $parser = new self($data);
+        $parser->process();
+
+        return $parser->repository;
     }
 
     /**
@@ -20,5 +47,18 @@ class Parser
     public static function getPathToFileForCollect() : string
     {
         return sys_get_temp_dir().'/'.self::FILE_NAME_FOR_COLLECT;
+    }
+
+    private function process() : void
+    {
+        foreach ($this->data as $rawRevision) {
+            $revision = new Revision();
+            $revision->number = (int) $rawRevision->attributes()->revision;
+            $revision->author = (string) $rawRevision->author;
+            $revision->dateTime = (string) $rawRevision->date;
+            $revision->message = (string) $rawRevision->msg;
+
+            $this->repository->addRevision($revision);
+        }
     }
 }
