@@ -36,8 +36,16 @@ class Parser
         $this->repository = new Repository();
     }
 
+    /**
+     * @throws LogFileNotFoundException
+     */
     public static function run() : Repository
     {
+        $pathToFile = self::getPathToFileForCollect();
+        if (!is_file($pathToFile)) {
+            throw new LogFileNotFoundException();
+        }
+
         $data = simplexml_load_file(self::getPathToFileForCollect());
         $parser = new self($data);
         $parser->process();
@@ -46,18 +54,11 @@ class Parser
     }
 
     /**
-     * @throws LogFileNotFoundException
-     *
      * @return string path to file, where stored data from `svn log`
      */
     public static function getPathToFileForCollect() : string
     {
-        $pathToFile = sys_get_temp_dir().'/'.self::FILE_NAME_FOR_COLLECT;
-        if (!is_file($pathToFile)) {
-            throw new LogFileNotFoundException();
-        }
-
-        return $pathToFile;
+        return sys_get_temp_dir().'/'.self::FILE_NAME_FOR_COLLECT;
     }
 
     private function process() : void
