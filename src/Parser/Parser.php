@@ -4,7 +4,9 @@ namespace SvnStatify\Parser;
 
 use SvnStatify\Collection\Repository;
 use SvnStatify\Collection\Revision;
+use SvnStatify\Collection\Change;
 
+use DateTime;
 use SimpleXMLElement;
 
 use function simplexml_load_file;
@@ -55,8 +57,16 @@ class Parser
             $revision = new Revision();
             $revision->number = (int) $rawRevision->attributes()->revision;
             $revision->author = (string) $rawRevision->author;
-            $revision->dateTime = (string) $rawRevision->date;
+            $revision->dateTime = new DateTime((string) $rawRevision->date);
             $revision->message = (string) $rawRevision->msg;
+
+            foreach ($rawRevision->paths->path as $path) {
+                $change = new Change();
+                $change->path = (string) $path;
+                $change->setStatus($path->attributes()->action);
+
+                $revision->addChange($change);
+            }
 
             $this->repository->addRevision($revision);
         }

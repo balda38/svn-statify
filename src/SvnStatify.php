@@ -24,8 +24,7 @@ class SvnStatify
     private function processSvnLog()
     {
         echo 'Process svn log...'.PHP_EOL;
-        // For more details about revisions option `--verbose` needed
-        $result = exec('svn log --xml '.$this->path.' > '.Parser::getPathToFileForCollect());
+        $result = exec('svn log --xml --verbose '.$this->path.' > '.Parser::getPathToFileForCollect());
         echo 'Process svn log completed!'.PHP_EOL;
 
         return $result;
@@ -46,8 +45,18 @@ class SvnStatify
 
                 echo 'Number: '.$revision->number.PHP_EOL;
                 echo 'Author: '.$revision->author.PHP_EOL;
-                echo 'Date: '.$revision->dateTime.PHP_EOL;
+                echo 'Date: '.$revision->dateTime->format('Y-m-d H:i:s').'UTC'.PHP_EOL;
                 echo 'Message: '.$revision->message.PHP_EOL;
+
+                $changes = $revision->getChanges();
+                echo PHP_EOL.'Changes:'.PHP_EOL;
+                while ($changes->valid()) {
+                    $change = $changes->current();
+
+                    echo '* '.$change->getStatus().' '.$change->path.PHP_EOL;
+
+                    $changes->next();
+                }
                 echo '--------------------------------------'.PHP_EOL;
 
                 $revisions->next();

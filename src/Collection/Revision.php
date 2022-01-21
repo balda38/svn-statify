@@ -2,6 +2,8 @@
 
 namespace SvnStatify\Collection;
 
+use SplObjectStorage;
+
 class Revision
 {
     /**
@@ -9,9 +11,7 @@ class Revision
      */
     public $number;
     /**
-     * @todo What type used?
-     *
-     * @var DateTime|string
+     * @var DateTime
      */
     public $dateTime;
     /**
@@ -22,8 +22,24 @@ class Revision
      * @var string
      */
     public $message;
+
     /**
-     * @var array[Change]
+     * @var SplObjectStorage<Change>
      */
-    public $changes;
+    private $changes;
+
+    public function __construct()
+    {
+        $this->changes = new SplObjectStorage();
+    }
+
+    public function addChange(Change $change) : void
+    {
+        $this->changes->attach($change);
+    }
+
+    public function getChanges() : SplObjectStorage
+    {
+        return $this->changes;
+    }
 }
