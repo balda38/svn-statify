@@ -6,6 +6,8 @@ use SvnStatify\Collection\Repository;
 use SvnStatify\Collection\Revision;
 use SvnStatify\Collection\Change;
 
+use SvnStatify\Exception\LogFileNotFoundException;
+
 use DateTime;
 use SimpleXMLElement;
 
@@ -44,11 +46,18 @@ class Parser
     }
 
     /**
+     * @throws LogFileNotFoundException
+     *
      * @return string path to file, where stored data from `svn log`
      */
     public static function getPathToFileForCollect() : string
     {
-        return sys_get_temp_dir().'/'.self::FILE_NAME_FOR_COLLECT;
+        $pathToFile = sys_get_temp_dir().'/'.self::FILE_NAME_FOR_COLLECT;
+        if (!is_file($pathToFile)) {
+            throw new LogFileNotFoundException();
+        }
+
+        return $pathToFile;
     }
 
     private function process() : void

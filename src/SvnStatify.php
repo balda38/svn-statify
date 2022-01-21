@@ -4,6 +4,8 @@ namespace SvnStatify;
 
 use SvnStatify\Parser\Parser;
 
+use Exception;
+
 class SvnStatify
 {
     /**
@@ -38,7 +40,12 @@ class SvnStatify
     public function outputSimple() : void
     {
         if ($this->processSvnLog() !== false) {
-            $revisions = Parser::run()->getRevisions();
+            try {
+                $revisions = Parser::run()->getRevisions();
+            } catch (Exception $e) {
+                echo $e->getMessage().PHP_EOL;
+                exit(1);
+            }
 
             while ($revisions->valid()) {
                 $revision = $revisions->current();
