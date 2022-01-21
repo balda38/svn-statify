@@ -40,5 +40,7 @@ abstract class BaseFeature
 
             $revisions->next();
         }
+
+        $revisions->rewind();
     }
 }

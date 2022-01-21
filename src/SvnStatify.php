@@ -79,11 +79,10 @@ class SvnStatify
 
             foreach ($analyzeResult as $featureName => $featureStat) {
                 echo $featureName.':'.PHP_EOL;
-                // For now only maintainers feature is ready and available.
-                // Then hard code it :)
-                foreach ($featureStat as $maintainerName => $maintainerCommitsNumber) {
-                    echo $maintainerName.': '.$maintainerCommitsNumber.PHP_EOL;
+                foreach ($featureStat as $key => $value) {
+                    echo $key.': '.$value.PHP_EOL;
                 }
+                echo '--------------------------------------'.PHP_EOL;
             }
         } else {
             /** @todo */

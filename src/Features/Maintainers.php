@@ -49,8 +49,7 @@ class Maintainers extends BaseFeature
     public function getAnalyzeResult()
     {
         arsort($this->maintainersStat);
-        $this->maintainersStat = array_slice($this->maintainersStat, 0, 5);
 
-        return $this->maintainersStat;
+        return $this->maintainersStat = array_slice($this->maintainersStat, 0, self::MAX_COUNT);
     }
 }

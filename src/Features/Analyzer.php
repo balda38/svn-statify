@@ -17,7 +17,10 @@ class Analyzer
     public static function run(SplObjectStorage $revisions) : array
     {
         $result = [];
-        foreach ([Maintainers::class] as $featureClass) {
+        foreach ([
+            Maintainers::class,
+            Words::class
+        ] as $featureClass) {
             $feature = new $featureClass();
             foreach ($feature->processRevisions($revisions) as $revision) {
                 $feature->analyzeRevision($revision);
