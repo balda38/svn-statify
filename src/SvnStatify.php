@@ -4,6 +4,8 @@ namespace SvnStatify;
 
 use SvnStatify\Parser\Parser;
 
+use SvnStatify\Features\Analyzer;
+
 use Exception;
 
 class SvnStatify
@@ -47,26 +49,41 @@ class SvnStatify
                 exit(1);
             }
 
-            while ($revisions->valid()) {
-                $revision = $revisions->current();
+            $analyzeResult = Analyzer::run($revisions);
 
-                echo 'Number: '.$revision->number.PHP_EOL;
-                echo 'Author: '.$revision->author.PHP_EOL;
-                echo 'Date: '.$revision->dateTime->format('Y-m-d H:i:s').'UTC'.PHP_EOL;
-                echo 'Message: '.$revision->message.PHP_EOL;
+            /**
+             * Full information about repository without analyze.
+             * Simple way - forget it.
+             */
+            // while ($revisions->valid()) {
+            //     $revision = $revisions->current();
 
-                $changes = $revision->getChanges();
-                echo PHP_EOL.'Changes:'.PHP_EOL;
-                while ($changes->valid()) {
-                    $change = $changes->current();
+            //     echo 'Number: '.$revision->number.PHP_EOL;
+            //     echo 'Author: '.$revision->author.PHP_EOL;
+            //     echo 'Date: '.$revision->dateTime->format('Y-m-d H:i:s').'UTC'.PHP_EOL;
+            //     echo 'Message: '.$revision->message.PHP_EOL;
 
-                    echo '* '.$change->getStatus().' '.$change->path.PHP_EOL;
+            //     $changes = $revision->getChanges();
+            //     echo PHP_EOL.'Changes:'.PHP_EOL;
+            //     while ($changes->valid()) {
+            //         $change = $changes->current();
 
-                    $changes->next();
+            //         echo '* '.$change->getStatus().' '.$change->path.PHP_EOL;
+
+            //         $changes->next();
+            //     }
+            //     echo '--------------------------------------'.PHP_EOL;
+
+            //     $revisions->next();
+            // }
+
+            foreach ($analyzeResult as $featureName => $featureStat) {
+                echo $featureName.':'.PHP_EOL;
+                // For now only maintainers feature is ready and available.
+                // Then hard code it :)
+                foreach ($featureStat as $maintainerName => $maintainerCommitsNumber) {
+                    echo $maintainerName.': '.$maintainerCommitsNumber.PHP_EOL;
                 }
-                echo '--------------------------------------'.PHP_EOL;
-
-                $revisions->next();
             }
         } else {
             /** @todo */

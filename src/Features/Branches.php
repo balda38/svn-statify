@@ -2,7 +2,11 @@
 
 namespace SvnStatify\Features;
 
-class Branches
+use SvnStatify\Collection\Revision;
+
+use SplObjectStorage;
+
+class Branches extends BaseFeautre
 {
     /**
      * {@inheritdoc}
@@ -18,5 +22,21 @@ class Branches
     public static function getDescription() : string
     {
         return 'Display data about number of created branches';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function analyzeRevision(Revision $revision) : void
+    {
+
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAnalyzeResult()
+    {
+
     }
 }

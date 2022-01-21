@@ -2,7 +2,11 @@
 
 namespace SvnStatify\Features;
 
-class Month
+use SvnStatify\Collection\Revision;
+
+use SplObjectStorage;
+
+class Month extends BaseFeature
 {
     /**
      * {@inheritdoc}
@@ -18,5 +22,21 @@ class Month
     public static function getDescription() : string
     {
         return 'Display month date range with most number of commits.';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function analyzeRevision(Revision $revision) : void
+    {
+
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAnalyzeResult()
+    {
+
     }
 }
