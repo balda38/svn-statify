@@ -8,6 +8,8 @@ use SvnStatify\Collection\Change;
 
 use SvnStatify\Exception\LogFileNotFoundException;
 
+use Balda38\ProgressBario;
+
 use DateTime;
 use SimpleXMLElement;
 
@@ -63,6 +65,7 @@ class Parser
 
     private function process() : void
     {
+        $progress = new ProgressBario(count($this->data), 'Parsing repository', true);
         foreach ($this->data as $rawRevision) {
             $revision = new Revision();
             $revision->number = (int) $rawRevision->attributes()->revision;
@@ -79,6 +82,9 @@ class Parser
             }
 
             $this->repository->addRevision($revision);
+
+            $progress->makeStep();
         }
+        $progress->close();
     }
 }

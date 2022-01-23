@@ -4,16 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9fafb50272fe5b3d13e2d59cf2b83495",
-    "packages": [],
+    "content-hash": "b22d320729fc6a44e7796b64d40fa199",
+    "packages": [
+        {
+            "name": "balda38/progress-bario",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/balda38/progress-bario.git",
+                "reference": "28a35c19c4b7eaeb5e04e92e76d85f620de631c1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/balda38/progress-bario/zipball/28a35c19c4b7eaeb5e04e92e76d85f620de631c1",
+                "reference": "28a35c19c4b7eaeb5e04e92e76d85f620de631c1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Balda38\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "balda38",
+                    "email": "alduin2012@gmail.com"
+                }
+            ],
+            "description": "Simple progress bar for CLI tasks.",
+            "support": {
+                "source": "https://github.com/balda38/progress-bario/tree/master",
+                "issues": "https://github.com/balda38/progress-bario/issues"
+            },
+            "time": "2022-01-23T18:41:00+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "balda38/progress-bario": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3"
+        "php": "^7.3",
+        "ext-simplexml": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
