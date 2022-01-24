@@ -1,10 +1,8 @@
 <?php
 
-namespace SvnStatify\Features;
+namespace SvnStatify\Analyzer\Features;
 
 use SvnStatify\Collection\Revision;
-
-use SplObjectStorage;
 
 class FileExtension extends BaseFeature
 {
@@ -35,7 +33,7 @@ class FileExtension extends BaseFeature
     /**
      * {@inheritdoc}
      */
-    public function getAnalyzeResult()
+    public function finishAnalyze() : void
     {
 
     }

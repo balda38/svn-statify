@@ -1,10 +1,10 @@
 <?php
 
-namespace SvnStatify\Features;
+namespace SvnStatify\Analyzer\Features;
 
 use SvnStatify\Collection\Revision;
 
-use SplObjectStorage;
+use SvnStatify\Analyzer\AnalyzerResultItem;
 
 class Words extends BaseFeature
 {
@@ -53,10 +53,16 @@ class Words extends BaseFeature
     /**
      * {@inheritdoc}
      */
-    public function getAnalyzeResult()
+    public function finishAnalyze() : void
     {
         arsort($this->mostCommonWords);
+        $this->mostCommonWords = array_slice($this->mostCommonWords, 0, self::MAX_COUNT);
 
-        return $this->mostCommonWords = array_slice($this->mostCommonWords, 0, self::MAX_COUNT);
+        foreach ($this->mostCommonWords as $word => $count) {
+            $analyzerResultItem = new AnalyzerResultItem();
+            $analyzerResultItem->key = $word;
+            $analyzerResultItem->numberOfCommits = $count;
+            $this->analyzerResult->addItem($analyzerResultItem);
+        }
     }
 }

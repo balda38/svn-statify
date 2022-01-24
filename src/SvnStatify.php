@@ -4,7 +4,7 @@ namespace SvnStatify;
 
 use SvnStatify\Parser\Parser;
 
-use SvnStatify\Features\Analyzer;
+use SvnStatify\Analyzer\Analyzer;
 
 use Exception;
 
@@ -77,10 +77,10 @@ class SvnStatify
             //     $revisions->next();
             // }
 
-            foreach ($analyzeResult as $featureName => $featureStat) {
-                echo $featureName.':'.PHP_EOL;
-                foreach ($featureStat as $key => $value) {
-                    echo $key.': '.$value.PHP_EOL;
+            foreach ($analyzeResult as $featureResult) {
+                echo $featureResult->feature.':'.PHP_EOL;
+                foreach ($featureResult->getItems() as $resultItem) {
+                    echo $resultItem->key.': '.$resultItem->numberOfCommits.PHP_EOL;
                 }
                 echo '--------------------------------------'.PHP_EOL;
             }

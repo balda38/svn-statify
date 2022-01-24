@@ -1,10 +1,10 @@
 <?php
 
-namespace SvnStatify\Features;
+namespace SvnStatify\Analyzer\Features;
 
 use SvnStatify\Collection\Revision;
 
-use SplObjectStorage;
+use SvnStatify\Analyzer\AnalyzerResultItem;
 
 class Maintainers extends BaseFeature
 {
@@ -46,10 +46,16 @@ class Maintainers extends BaseFeature
     /**
      * {@inheritdoc}
      */
-    public function getAnalyzeResult()
+    public function finishAnalyze() : void
     {
         arsort($this->maintainersStat);
+        $this->maintainersStat = array_slice($this->maintainersStat, 0, self::MAX_COUNT);
 
-        return $this->maintainersStat = array_slice($this->maintainersStat, 0, self::MAX_COUNT);
+        foreach ($this->maintainersStat as $maintainer => $commits) {
+            $analyzerResultItem = new AnalyzerResultItem();
+            $analyzerResultItem->key = $maintainer;
+            $analyzerResultItem->numberOfCommits = $commits;
+            $this->analyzerResult->addItem($analyzerResultItem);
+        }
     }
 }

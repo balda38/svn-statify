@@ -1,8 +1,11 @@
 <?php
 
-namespace SvnStatify\Features;
+namespace SvnStatify\Analyzer;
 
 use SvnStatify\Collection\Revision;
+
+use SvnStatify\Analyzer\Features\Maintainers;
+use SvnStatify\Analyzer\Features\Words;
 
 use Balda38\ProgressBario;
 
@@ -32,7 +35,7 @@ class Analyzer
 
                 $progress->makeStep();
             }
-            $result[$feature->getName()] = $feature->getAnalyzeResult();
+            $result[] = $feature->getAnalyzerResult();
         }
 
         $progress->close();

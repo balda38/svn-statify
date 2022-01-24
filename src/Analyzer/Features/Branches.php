@@ -1,19 +1,17 @@
 <?php
 
-namespace SvnStatify\Features;
+namespace SvnStatify\Analyzer\Features;
 
 use SvnStatify\Collection\Revision;
 
-use SplObjectStorage;
-
-class Month extends BaseFeature
+class Branches extends BaseFeautre
 {
     /**
      * {@inheritdoc}
      */
     public static function getName() : string
     {
-        return 'month';
+        return 'branches';
     }
 
     /**
@@ -21,7 +19,7 @@ class Month extends BaseFeature
      */
     public static function getDescription() : string
     {
-        return 'Display month date range with most number of commits.';
+        return 'Display data about number of created branches';
     }
 
     /**
@@ -35,7 +33,7 @@ class Month extends BaseFeature
     /**
      * {@inheritdoc}
      */
-    public function getAnalyzeResult()
+    public function finishAnalyze() : void
     {
 
     }
