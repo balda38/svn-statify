@@ -11,10 +11,12 @@ use SvnStatify\Exception\LogFileNotFoundException;
 use Balda38\ProgressBario;
 
 use DateTime;
+use DateTimeZone;
 use SimpleXMLElement;
 
 use function simplexml_load_file;
 use function sys_get_temp_dir;
+use function date_default_timezone_get;
 
 class Parser
 {
@@ -65,12 +67,16 @@ class Parser
 
     private function process() : void
     {
+        $timezone = new DateTimeZone(date_default_timezone_get());
+
         $progress = new ProgressBario(count($this->data), 'Parsing repository', true);
         foreach ($this->data as $rawRevision) {
             $revision = new Revision();
             $revision->number = (int) $rawRevision->attributes()->revision;
             $revision->author = (string) $rawRevision->author;
-            $revision->dateTime = new DateTime((string) $rawRevision->date);
+            $dateTime = new DateTime((string) $rawRevision->date);
+            $dateTime->setTimezone($timezone);
+            $revision->dateTime = $dateTime;
             $revision->message = (string) $rawRevision->msg;
 
             foreach ($rawRevision->paths->path as $path) {

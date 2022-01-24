@@ -55,12 +55,13 @@ class SvnStatify
              * Full information about repository without analyze.
              * Simple way - forget it.
              */
+            // $revisions = $repository->getRevisions();
             // while ($revisions->valid()) {
             //     $revision = $revisions->current();
 
             //     echo 'Number: '.$revision->number.PHP_EOL;
             //     echo 'Author: '.$revision->author.PHP_EOL;
-            //     echo 'Date: '.$revision->dateTime->format('Y-m-d H:i:s').'UTC'.PHP_EOL;
+            //     echo 'Date: '.$revision->dateTime->format('Y-m-d H:i:sO').PHP_EOL;
             //     echo 'Message: '.$revision->message.PHP_EOL;
 
             //     $changes = $revision->getChanges();
