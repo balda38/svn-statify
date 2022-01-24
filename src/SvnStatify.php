@@ -43,13 +43,13 @@ class SvnStatify
     {
         if ($this->processSvnLog() !== false) {
             try {
-                $revisions = Parser::run()->getRevisions();
+                $repository = Parser::run();
             } catch (Exception $e) {
                 echo $e->getMessage().PHP_EOL;
                 exit(1);
             }
 
-            $analyzeResult = Analyzer::run($revisions);
+            $analyzeResult = Analyzer::run($repository);
 
             /**
              * Full information about repository without analyze.

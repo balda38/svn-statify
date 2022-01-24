@@ -2,25 +2,22 @@
 
 namespace SvnStatify\Analyzer;
 
-use SvnStatify\Collection\Revision;
+use SvnStatify\Collection\Repository;
 
 use SvnStatify\Analyzer\Features\Maintainers;
 use SvnStatify\Analyzer\Features\Words;
 
 use Balda38\ProgressBario;
 
-use SplObjectStorage;
-
 /**
  * Analyzing repository revisions on features.
  */
 class Analyzer
 {
-    /**
-     * @param SplObjectStorage<Revision>
-     */
-    public static function run(SplObjectStorage $revisions) : array
+    public static function run(Repository $repository) : array
     {
+        $revisions = $repository->getRevisions();
+
         // 2 - is number of features
         $progress = new ProgressBario($revisions->count() * 2, 'Analyzing repository', true);
 
