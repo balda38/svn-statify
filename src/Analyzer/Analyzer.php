@@ -5,6 +5,7 @@ namespace SvnStatify\Analyzer;
 use SvnStatify\Collection\Repository;
 
 use SvnStatify\Analyzer\Features\Maintainers;
+use SvnStatify\Analyzer\Features\Months;
 use SvnStatify\Analyzer\Features\Words;
 
 use Balda38\ProgressBario;
@@ -24,7 +25,8 @@ class Analyzer
         $result = [];
         foreach ([
             Maintainers::class,
-            Words::class
+            Months::class,
+            Words::class,
         ] as $featureClass) {
             $feature = new $featureClass();
             foreach ($feature->processRevisions($revisions) as $revision) {
