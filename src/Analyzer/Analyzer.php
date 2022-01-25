@@ -18,16 +18,16 @@ class Analyzer
     public static function run(Repository $repository) : array
     {
         $revisions = $repository->getRevisions();
-
-        // 2 - is number of features
-        $progress = new ProgressBario($revisions->count() * 2, 'Analyzing repository', true);
-
-        $result = [];
-        foreach ([
+        $features = [
             Maintainers::class,
             Months::class,
             Words::class,
-        ] as $featureClass) {
+        ];
+
+        $progress = new ProgressBario($revisions->count() * count($features), 'Analyzing repository', true);
+
+        $result = [];
+        foreach ($features as $featureClass) {
             $feature = new $featureClass();
             foreach ($feature->processRevisions($revisions) as $revision) {
                 $feature->analyzeRevision($revision);
