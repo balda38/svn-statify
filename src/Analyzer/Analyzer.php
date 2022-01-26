@@ -4,6 +4,7 @@ namespace SvnStatify\Analyzer;
 
 use SvnStatify\Collection\Repository;
 
+use SvnStatify\Analyzer\Features\FileExtensions;
 use SvnStatify\Analyzer\Features\Maintainers;
 use SvnStatify\Analyzer\Features\Months;
 use SvnStatify\Analyzer\Features\Words;
@@ -22,6 +23,7 @@ class Analyzer
             Maintainers::class,
             Months::class,
             Words::class,
+            FileExtensions::class,
         ];
 
         $progress = new ProgressBario($revisions->count() * count($features), 'Analyzing repository', true);
