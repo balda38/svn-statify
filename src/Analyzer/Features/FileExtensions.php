@@ -51,6 +51,8 @@ class FileExtensions extends BaseFeature
 
             $changes->next();
         }
+
+        $changes->rewind();
     }
 
     /**
