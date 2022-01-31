@@ -37,6 +37,8 @@ abstract class BaseFeature
 
     /**
      * Run analyze on specific revision for feature.
+     *
+     * Here need to fill $this->statistic.
      */
     abstract protected function analyzeRevision(Revision $revision) : void;
 
