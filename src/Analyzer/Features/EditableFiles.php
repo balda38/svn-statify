@@ -3,6 +3,7 @@
 namespace SvnStatify\Analyzer\Features;
 
 use SvnStatify\Collection\Revision;
+use SvnStatify\Collection\Status;
 
 /**
  * @property array $statistic
@@ -38,8 +39,14 @@ class EditableFiles extends BaseFeature
         $changes = $revision->getChanges();
         while ($changes->valid()) {
             $change = $changes->current();
-            $path = $change->path;
+            $status = $change->getStatus();
+            if (!isset(Status::list()[$status->getSymbol()])) {
+                $changes->next();
 
+                continue;
+            }
+
+            $path = $change->path;
             // Branches changes (e.g. svn ignore) isn't interesting
             $pathElements = explode('/', $path);
             if (count($pathElements) <= 2) {

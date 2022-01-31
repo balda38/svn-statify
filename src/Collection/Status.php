@@ -33,6 +33,11 @@ class Status
         ;
     }
 
+    public function getSymbol() : string
+    {
+        return $this->svnStatusSymbol;
+    }
+
     /**
      * Return titles of statuses.
      */
