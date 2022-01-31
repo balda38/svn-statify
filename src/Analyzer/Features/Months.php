@@ -6,6 +6,9 @@ use SvnStatify\Collection\Revision;
 
 use SvnStatify\Analyzer\AnalyzerResultItem;
 
+/**
+ * @property SvnStatify\Analyzer\AnalyzerResult $analyzerResult
+ */
 class Months extends BaseFeature
 {
     /**
@@ -34,7 +37,7 @@ class Months extends BaseFeature
     /**
      * {@inheritdoc}
      */
-    public function analyzeRevision(Revision $revision) : void
+    protected function analyzeRevision(Revision $revision) : void
     {
         $month = $revision->dateTime->format('F Y');
         if (array_key_exists($month, $this->monthsStat)) {

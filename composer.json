@@ -10,15 +10,8 @@
     ],
     "require": {
         "php": "^7.3",
-        "ext-simplexml": "*",
-        "balda38/progress-bario": "dev-master"
+        "ext-simplexml": "*"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/balda38/progress-bario.git"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "SvnStatify\\": "src/"

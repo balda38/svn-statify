@@ -32,7 +32,7 @@ abstract class BaseFeature
     /**
      * Run analyze on specific revision for feature.
      */
-    abstract public function analyzeRevision(Revision $revision) : void;
+    abstract protected function analyzeRevision(Revision $revision) : void;
 
     /**
      * End the process of analyze feature. Here must fill $this->analyzerResult.
@@ -55,11 +55,9 @@ abstract class BaseFeature
     final public function processRevisions(SplObjectStorage $revisions)
     {
         while ($revisions->valid()) {
-            yield $revisions->current();
-
+            static::analyzeRevision($revisions->current());
             $revisions->next();
         }
-
         $revisions->rewind();
     }
 }

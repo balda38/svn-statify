@@ -10,13 +10,14 @@ use SvnStatify\Analyzer\Features\Maintainers;
 use SvnStatify\Analyzer\Features\Months;
 use SvnStatify\Analyzer\Features\Words;
 
-use Balda38\ProgressBario;
-
 /**
  * Analyzing repository revisions on features.
  */
 class Analyzer
 {
+    /**
+     * @return AnalyzerResult[]
+     */
     public static function run(Repository $repository) : array
     {
         $revisions = $repository->getRevisions();
@@ -28,20 +29,12 @@ class Analyzer
             Words::class,
         ];
 
-        $progress = new ProgressBario($revisions->count() * count($features), 'Analyzing repository', true);
-
         $result = [];
         foreach ($features as $featureClass) {
             $feature = new $featureClass();
-            foreach ($feature->processRevisions($revisions) as $revision) {
-                $feature->analyzeRevision($revision);
-
-                $progress->makeStep();
-            }
+            $feature->processRevisions($revisions);
             $result[] = $feature->getAnalyzerResult();
         }
-
-        $progress->close();
 
         return $result;
     }

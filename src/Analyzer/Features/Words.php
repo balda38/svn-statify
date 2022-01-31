@@ -6,6 +6,9 @@ use SvnStatify\Collection\Revision;
 
 use SvnStatify\Analyzer\AnalyzerResultItem;
 
+/**
+ * @property SvnStatify\Analyzer\AnalyzerResult $analyzerResult
+ */
 class Words extends BaseFeature
 {
     /**
@@ -34,7 +37,7 @@ class Words extends BaseFeature
     /**
      * {@inheritdoc}
      */
-    public function analyzeRevision(Revision $revision) : void
+    protected function analyzeRevision(Revision $revision) : void
     {
         $messageWords = preg_split('/\s+/', $revision->message);
         foreach ($messageWords as $word) {

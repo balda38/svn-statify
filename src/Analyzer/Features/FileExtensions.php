@@ -6,6 +6,9 @@ use SvnStatify\Collection\Revision;
 
 use SvnStatify\Analyzer\AnalyzerResultItem;
 
+/**
+ * @property SvnStatify\Analyzer\AnalyzerResult $analyzerResult
+ */
 class FileExtensions extends BaseFeature
 {
     /**
@@ -34,7 +37,7 @@ class FileExtensions extends BaseFeature
     /**
      * {@inheritdoc}
      */
-    public function analyzeRevision(Revision $revision) : void
+    protected function analyzeRevision(Revision $revision) : void
     {
         $changes = $revision->getChanges();
         while ($changes->valid()) {

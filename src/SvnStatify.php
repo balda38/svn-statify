@@ -23,6 +23,8 @@ class SvnStatify
     }
 
     /**
+     * @todo Catching any errors/exceptions/warnings/etc. from exec()
+     *
      * @return string|false
      */
     private function processSvnLog()
@@ -36,8 +38,6 @@ class SvnStatify
 
     /**
      * Output pretty information about revisions in repository to CLI.
-     *
-     * @todo Catching any errors/exceptions/warnings/etc. from exec()
      */
     public function outputSimple() : void
     {

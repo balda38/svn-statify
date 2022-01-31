@@ -6,6 +6,9 @@ use SvnStatify\Collection\Revision;
 
 use SvnStatify\Analyzer\AnalyzerResultItem;
 
+/**
+ * @property SvnStatify\Analyzer\AnalyzerResult $analyzerResult
+ */
 class Maintainers extends BaseFeature
 {
     /**
@@ -34,7 +37,7 @@ class Maintainers extends BaseFeature
     /**
      * {@inheritdoc}
      */
-    public function analyzeRevision(Revision $revision) : void
+    protected function analyzeRevision(Revision $revision) : void
     {
         if (array_key_exists($revision->author, $this->maintainersStat)) {
             ++$this->maintainersStat[$revision->author];

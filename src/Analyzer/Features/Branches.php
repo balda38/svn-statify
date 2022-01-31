@@ -6,6 +6,9 @@ use SvnStatify\Collection\Revision;
 
 use SvnStatify\Analyzer\AnalyzerResultItem;
 
+/**
+ * @property SvnStatify\Analyzer\AnalyzerResult $analyzerResult
+ */
 class Branches extends BaseFeature
 {
     /**
@@ -34,7 +37,7 @@ class Branches extends BaseFeature
     /**
      * {@inheritdoc}
      */
-    public function analyzeRevision(Revision $revision) : void
+    protected function analyzeRevision(Revision $revision) : void
     {
         $changes = $revision->getChanges();
         $change = $changes->current(); // one change is enough
