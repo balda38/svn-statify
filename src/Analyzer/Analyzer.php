@@ -5,6 +5,7 @@ namespace SvnStatify\Analyzer;
 use SvnStatify\Collection\Repository;
 
 use SvnStatify\Analyzer\Features\Branches;
+use SvnStatify\Analyzer\Features\EditableFiles;
 use SvnStatify\Analyzer\Features\FileExtensions;
 use SvnStatify\Analyzer\Features\Maintainers;
 use SvnStatify\Analyzer\Features\Months;
@@ -39,6 +40,7 @@ class Analyzer
     {
         return [
             Branches::class,
+            EditableFiles::class,
             FileExtensions::class,
             Maintainers::class,
             Months::class,
