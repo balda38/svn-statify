@@ -10,6 +10,7 @@ use SvnStatify\Analyzer\Features\FileExtensions;
 use SvnStatify\Analyzer\Features\Maintainers;
 use SvnStatify\Analyzer\Features\Months;
 use SvnStatify\Analyzer\Features\Words;
+use SvnStatify\Analyzer\Features\Statuses;
 
 /**
  * Analyzing repository revisions on features.
@@ -44,6 +45,7 @@ class Analyzer
             FileExtensions::class,
             Maintainers::class,
             Months::class,
+            Statuses::class,
             Words::class,
         ];
     }
