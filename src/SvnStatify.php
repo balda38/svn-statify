@@ -42,7 +42,10 @@ class SvnStatify
      */
     public function outputSimple() : void
     {
-        if ($this->processSvnLog() !== false) {
+        if ($this->processSvnLog() === false) {
+            echo 'Unable to read svn log from repository!'.PHP_EOL;
+            exit(1);
+        } else {
             try {
                 $repository = Parser::run();
             } catch (Exception $e) {
@@ -86,8 +89,6 @@ class SvnStatify
                 }
                 echo '--------------------------------------'.PHP_EOL;
             }
-        } else {
-            /** @todo */
         }
     }
 }
