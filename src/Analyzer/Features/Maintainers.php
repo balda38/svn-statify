@@ -4,10 +4,8 @@ namespace SvnStatify\Analyzer\Features;
 
 use SvnStatify\Collection\Revision;
 
-use SvnStatify\Analyzer\AnalyzerResultItem;
-
 /**
- * @property SvnStatify\Analyzer\AnalyzerResult $analyzerResult
+ * @property array $statistic
  */
 class Maintainers extends BaseFeature
 {
@@ -15,8 +13,6 @@ class Maintainers extends BaseFeature
      * @todo It's should be configured param
      */
     const MAX_COUNT = 5;
-
-    private $maintainersStat = [];
 
     /**
      * {@inheritdoc}
@@ -39,26 +35,10 @@ class Maintainers extends BaseFeature
      */
     protected function analyzeRevision(Revision $revision) : void
     {
-        if (array_key_exists($revision->author, $this->maintainersStat)) {
-            ++$this->maintainersStat[$revision->author];
+        if (array_key_exists($revision->author, $this->statistic)) {
+            ++$this->statistic[$revision->author];
         } else {
-            $this->maintainersStat[$revision->author] = 1;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function finishAnalyze() : void
-    {
-        arsort($this->maintainersStat);
-        $this->maintainersStat = array_slice($this->maintainersStat, 0, self::MAX_COUNT);
-
-        foreach ($this->maintainersStat as $maintainer => $commits) {
-            $analyzerResultItem = new AnalyzerResultItem();
-            $analyzerResultItem->key = $maintainer;
-            $analyzerResultItem->numberOfCommits = $commits;
-            $this->analyzerResult->addItem($analyzerResultItem);
+            $this->statistic[$revision->author] = 1;
         }
     }
 }

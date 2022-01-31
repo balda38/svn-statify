@@ -4,10 +4,8 @@ namespace SvnStatify\Analyzer\Features;
 
 use SvnStatify\Collection\Revision;
 
-use SvnStatify\Analyzer\AnalyzerResultItem;
-
 /**
- * @property SvnStatify\Analyzer\AnalyzerResult $analyzerResult
+ * @property array $statistic
  */
 class FileExtensions extends BaseFeature
 {
@@ -15,8 +13,6 @@ class FileExtensions extends BaseFeature
      * @todo It's should be configured param
      */
     const MAX_COUNT = 5;
-
-    private $fileExtensionsStat = [];
 
     /**
      * {@inheritdoc}
@@ -45,10 +41,10 @@ class FileExtensions extends BaseFeature
             $pathInfo = pathinfo($change->path);
             if (isset($pathInfo['extension'])) {
                 $extension = $pathInfo['extension'];
-                if (array_key_exists($extension, $this->fileExtensionsStat)) {
-                    ++$this->fileExtensionsStat[$extension];
+                if (array_key_exists($extension, $this->statistic)) {
+                    ++$this->statistic[$extension];
                 } else {
-                    $this->fileExtensionsStat[$extension] = 1;
+                    $this->statistic[$extension] = 1;
                 }
             }
 
@@ -56,21 +52,5 @@ class FileExtensions extends BaseFeature
         }
 
         $changes->rewind();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function finishAnalyze() : void
-    {
-        arsort($this->fileExtensionsStat);
-        $this->fileExtensionsStat = array_slice($this->fileExtensionsStat, 0, self::MAX_COUNT);
-
-        foreach ($this->fileExtensionsStat as $extension => $commits) {
-            $analyzerResultItem = new AnalyzerResultItem();
-            $analyzerResultItem->key = $extension;
-            $analyzerResultItem->numberOfCommits = $commits;
-            $this->analyzerResult->addItem($analyzerResultItem);
-        }
     }
 }

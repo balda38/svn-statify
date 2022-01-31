@@ -3,6 +3,8 @@
 namespace SvnStatify\Analyzer\Features;
 
 use SvnStatify\Analyzer\AnalyzerResult;
+use SvnStatify\Analyzer\AnalyzerResultItem;
+
 use SvnStatify\Collection\Revision;
 
 use SplObjectStorage;
@@ -12,7 +14,11 @@ abstract class BaseFeature
     /**
      * @var AnalyzerResult
      */
-    protected $analyzerResult;
+    private $analyzerResult;
+    /**
+     * @var array
+     */
+    protected $statistic = [];
 
     public function __construct()
     {
@@ -35,16 +41,20 @@ abstract class BaseFeature
     abstract protected function analyzeRevision(Revision $revision) : void;
 
     /**
-     * End the process of analyze feature. Here must fill $this->analyzerResult.
-     */
-    abstract protected function finishAnalyze() : void;
-
-    /**
      * Get the result of revisions analyzing.
      */
     final public function getAnalyzerResult() : AnalyzerResult
     {
-        $this->finishAnalyze();
+        $statistic = $this->statistic;
+        arsort($statistic);
+        $statistic = array_slice($statistic, 0, static::MAX_COUNT);
+
+        foreach ($statistic as $statisticKey => $commits) {
+            $analyzerResultItem = new AnalyzerResultItem();
+            $analyzerResultItem->key = $statisticKey;
+            $analyzerResultItem->numberOfCommits = $commits;
+            $this->analyzerResult->addItem($analyzerResultItem);
+        }
 
         return $this->analyzerResult;
     }

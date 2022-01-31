@@ -4,10 +4,8 @@ namespace SvnStatify\Analyzer\Features;
 
 use SvnStatify\Collection\Revision;
 
-use SvnStatify\Analyzer\AnalyzerResultItem;
-
 /**
- * @property SvnStatify\Analyzer\AnalyzerResult $analyzerResult
+ * @property array $statistic
  */
 class Words extends BaseFeature
 {
@@ -15,8 +13,6 @@ class Words extends BaseFeature
      * @todo It's should be configured param
      */
     const MAX_COUNT = 30;
-
-    private $mostCommonWords = [];
 
     /**
      * {@inheritdoc}
@@ -45,27 +41,11 @@ class Words extends BaseFeature
             if (mb_strlen($word) <= 3) {
                 continue;
             }
-            if (array_key_exists($word, $this->mostCommonWords)) {
-                ++$this->mostCommonWords[$word];
+            if (array_key_exists($word, $this->statistic)) {
+                ++$this->statistic[$word];
             } else {
-                $this->mostCommonWords[$word] = 1;
+                $this->statistic[$word] = 1;
             }
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function finishAnalyze() : void
-    {
-        arsort($this->mostCommonWords);
-        $this->mostCommonWords = array_slice($this->mostCommonWords, 0, self::MAX_COUNT);
-
-        foreach ($this->mostCommonWords as $word => $count) {
-            $analyzerResultItem = new AnalyzerResultItem();
-            $analyzerResultItem->key = $word;
-            $analyzerResultItem->numberOfCommits = $count;
-            $this->analyzerResult->addItem($analyzerResultItem);
         }
     }
 }
