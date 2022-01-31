@@ -21,21 +21,28 @@ class Analyzer
     public static function run(Repository $repository) : array
     {
         $revisions = $repository->getRevisions();
-        $features = [
-            Branches::class,
-            FileExtensions::class,
-            Maintainers::class,
-            Months::class,
-            Words::class,
-        ];
 
         $result = [];
-        foreach ($features as $featureClass) {
+        foreach (self::getFeatures() as $featureClass) {
             $feature = new $featureClass();
             $feature->processRevisions($revisions);
             $result[] = $feature->getAnalyzerResult();
         }
 
         return $result;
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getFeatures() : array
+    {
+        return [
+            Branches::class,
+            FileExtensions::class,
+            Maintainers::class,
+            Months::class,
+            Words::class,
+        ];
     }
 }
