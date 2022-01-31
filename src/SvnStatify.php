@@ -3,6 +3,7 @@
 namespace SvnStatify;
 
 use SvnStatify\Parser\Parser;
+use SvnStatify\Parser\ParsedFile;
 
 use SvnStatify\Analyzer\Analyzer;
 
@@ -30,7 +31,7 @@ class SvnStatify
     private function processSvnLog()
     {
         echo 'Process svn log...'.PHP_EOL;
-        $result = exec('svn log --xml --verbose '.$this->path.' > '.Parser::getPathToFileForCollect());
+        $result = exec('svn log --xml --verbose '.$this->path.' > '.ParsedFile::getPath());
         echo 'Process svn log completed!'.PHP_EOL;
 
         return $result;
