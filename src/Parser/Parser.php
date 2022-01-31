@@ -2,10 +2,15 @@
 
 namespace SvnStatify\Parser;
 
+use SvnStatify\Parser\Validators\RevisionValidator;
+
+use SvnStatify\Exception\InvalidLogFileException;
+
 use SvnStatify\Collection\Repository;
 use SvnStatify\Collection\Revision;
 use SvnStatify\Collection\Change;
 
+use Exception;
 use DateTime;
 use DateTimeZone;
 use SimpleXMLElement;
@@ -38,11 +43,22 @@ class Parser
         return $parser->repository;
     }
 
+    /**
+     * @throws InvalidLogFileException
+     */
     private function process() : void
     {
         $timezone = new DateTimeZone(date_default_timezone_get());
 
+        $parsedRevisions = 0;
         foreach ($this->data as $rawRevision) {
+            try {
+                RevisionValidator::validate($rawRevision);
+            } catch (Exception $e) {
+                // just check next revision
+                continue;
+            }
+
             $revision = new Revision();
             $revision->number = (int) $rawRevision->attributes()->revision;
             $revision->author = (string) $rawRevision->author;
@@ -60,6 +76,11 @@ class Parser
             }
 
             $this->repository->addRevision($revision);
+            ++$parsedRevisions;
+        }
+
+        if ($parsedRevisions === 0) {
+            throw new InvalidLogFileException();
         }
     }
 }

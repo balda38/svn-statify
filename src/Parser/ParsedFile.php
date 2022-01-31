@@ -2,6 +2,7 @@
 
 namespace SvnStatify\Parser;
 
+use SvnStatify\Exception\EmptyLogFileException;
 use SvnStatify\Exception\LogFileNotFoundException;
 
 use SimpleXMLElement;
@@ -26,6 +27,7 @@ class ParsedFile
 
     /**
      * @throws LogFileNotFoundException
+     * @throws EmptyLogFileException
      */
     public static function getData() : SimpleXMLElement
     {
@@ -34,6 +36,11 @@ class ParsedFile
             throw new LogFileNotFoundException();
         }
 
-        return simplexml_load_file($pathToFile);
+        $data = simplexml_load_file($pathToFile);
+        if ($data->count() === 0) {
+            throw new EmptyLogFileException();
+        }
+
+        return $data;
     }
 }
